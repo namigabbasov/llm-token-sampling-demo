@@ -40,26 +40,31 @@ def apply_top_p(probs, p):
     s = newp.sum()
     return newp / (s if s > 0 else 1.0)
 
-# Improved chart function: rotated labels + highlight max bar
 def build_chart(vocab, probs):
     df = pd.DataFrame({"token": vocab, "probability": probs})
-    chart = (
-        alt.Chart(df)
-        .mark_bar()
-        .encode(
-            x=alt.X("token:N", sort=None, title="Token"),
-            y=alt.Y("probability:Q", title="Probability"),
-            color=alt.condition(
-                alt.datum.probability == df["probability"].max(),
-                alt.value("#4c78a8"),   # Highlight highest prob
-                alt.value("#9ecae1"),   # Others
-            ),
-            tooltip=["token", alt.Tooltip("probability:Q", format=".4f")]
-        )
-        .properties(width=600, height=300)
-        .configure_axis(labelAngle=45)
+
+    base = alt.Chart(df).mark_bar().encode(
+        x=alt.X("token:N", sort=None, title="Token"),
+        y=alt.Y("probability:Q", title="Probability"),
+        color=alt.condition(
+            alt.datum.probability == df["probability"].max(),
+            alt.value("#4c78a8"),
+            alt.value("#9ecae1")
+        ),
+        tooltip=[
+            alt.Tooltip("token:N", title="Token"),
+            alt.Tooltip("probability:Q", format=".4f", title="Probability")
+        ]
     )
+
+    chart = (
+        base.configure_axis(labelAngle=45)
+            .properties(width=600, height=300)
+            .interactive(False)
+    )
+
     return chart
+
 
 
 # ===============================================================
