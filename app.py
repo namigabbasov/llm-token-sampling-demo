@@ -158,7 +158,7 @@ We simulate a **flat** probability distribution.
 """)
 
 if st.button("Run Citation Test"):
-    vocab_cite = ["fairness", "bias", "ethical", "trust", "modeling", "AI", "learning"]
+    vocab_cite = ["Fairness", "Bias", "Ethical", "Trust", "Modeling", "AI", "Learning"]
     logits_cite = [1.02, 1.01, 1.03, 0.99, 1.00, 1.02, 1.01]  # very flat
 
     probs_cite = softmax(logits_cite, temp=1.0)
