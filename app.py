@@ -6,9 +6,10 @@ import altair as alt
 st.set_page_config(layout="wide", page_title="LLM Token Sampling Playground")
 
 
-# ================================================================
-# Utility functions
-# ================================================================
+
+
+#### Utility functions
+
 
 def softmax(logits, temp=1.0):
     z = np.array(logits) / float(temp)
@@ -56,9 +57,9 @@ def build_chart(vocab, probs):
     return chart
 
 
-# ================================================================
-# MAIN UI
-# ================================================================
+
+### MAIN UI
+
 
 st.title("🔍 LLM Token Sampling Playground")
 st.write("""
@@ -67,11 +68,13 @@ based on probability distributions.
 """)
 
 
-# ================================================================
-# SHARP vs FLAT PRESETS (Your original playground)
-# ================================================================
 
-st.header("🎛️ Token Sampling Controls (General Playground)")
+
+
+### SHARP vs FLAT PRESETS
+
+
+st.header("Token Sampling Controls - General Playground)")
 
 with st.sidebar:
     st.header("Settings")
@@ -82,11 +85,11 @@ with st.sidebar:
     )
 
     if preset == "Sharp (high-consistency)":
-        vocab = ["America","Americans","Africa","Asia","Europe","Other1","Other2"]
+        vocab = ["London", "Manchester", "Birmingham", "Cardiff", "Edinburgh", "Other1","Other2","Other_n"]
         logits = [8.0, 0.5, -1.0, -1.5, -2.0, -3.0, -4.0]
 
     elif preset == "Flat (low-consistency)":
-        vocab = ["fairness","bias","ethical","deep","machine","trust","model","learning"]
+        vocab = ["Fairness","Bias","Ethical","Deep","Machine","Trust","Model","Learning"]
         logits = [1.2,1.1,1.05,1.0,0.95,1.0,0.9,0.85]
 
     else:
@@ -102,11 +105,12 @@ with st.sidebar:
     top_p = st.slider("Top-p", 0.01, 1.0, 0.9, 0.01)
 
 
-# ================================================================
-# General PMF visualization
-# ================================================================
 
-st.subheader("📊 Probability Distribution (General Playground)")
+
+
+### General PMF visualization
+
+st.subheader("Probability Distribution (General Playground)")
 probs = softmax(logits, temp=temperature)
 st.altair_chart(build_chart(vocab, probs), use_container_width=True)
 
@@ -116,16 +120,16 @@ for i in top_idx:
     st.write(f"- {vocab[i]}: {probs[i]:.4f}")
 
 
-# ================================================================
-# DEMONSTRATION: Sharp fact vs Flat citation
-# ================================================================
+
+
+
+### DEMONSTRATION: Sharp fact vs Flat citation
 
 st.markdown("---")
-st.header("🎓 Demonstration: Why Facts Are Stable but Citations Hallucinate")
+st.header("Demonstration: Why Facts Are Stable but Citations Hallucinate")
 
-# --------------------------
-# UK CAPITAL TEST (SHARP)
-# --------------------------
+###### 1. UK CAPITAL TEST
+
 
 st.write("""
 ## 🔵 Test 1 — High-Consistency Fact  
@@ -140,25 +144,23 @@ if st.button("Run UK Capital Test"):
     probs_demo = softmax(logits_demo, temp=1.0)
     chosen = vocab_demo[np.argmax(probs_demo)]
 
-    st.subheader("PMF — Sharp Distribution (Capital of UK)")
+    st.subheader("PMF — Sharp Distribution - Capital of UK)")
     st.altair_chart(build_chart(vocab_demo, probs_demo), use_container_width=True)
 
     st.success(f"**Generated token:** {chosen}")
     st.info("Because the PMF is extremely sharp, the LLM chooses **London every time**, under all sampling settings.")
 
+##### 2. CITATION TEST
 
-# --------------------------
-# CITATION TEST (FLAT)
-# --------------------------
 
 st.write("""
-## 🟠 Test 2 — Low-Consistency Citation Task  
+## Test 2 — Low-Consistency Citation Task  
 **Question:** *Give me an APA citation for Smith (2019).*  
 We simulate a **flat** probability distribution.
 """)
 
 if st.button("Run Citation Test"):
-    vocab_cite = ["fairness", "bias", "ethical", "trust", "modeling", "AI", "learning"]
+    vocab_cite = ["Fairness", "Bias", "Ethical", "Trust", "Modeling", "AI", "Learning"]
     logits_cite = [1.02, 1.01, 1.03, 0.99, 1.00, 1.02, 1.01]  # very flat
 
     probs_cite = softmax(logits_cite, temp=1.0)
@@ -173,10 +175,6 @@ Because the distribution is **flat**, the model is unsure.
 Each click produces a **different token**, just like citation hallucinations.
 """)
 
-
-# ================================================================
-# END
-# ================================================================
 
 st.markdown("---")
 st.write("Created to demonstrate LLM token sampling, sharp vs flat distributions, and hallucination mechanisms.")
