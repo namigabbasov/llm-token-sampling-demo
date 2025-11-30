@@ -71,7 +71,7 @@ based on probability distributions.
 ### SHARP vs FLAT PRESETS
 
 
-st.header("Token Sampling Controls")
+st.header("Token Sampling Controls and Probability Distribution of Tokens")
 
 with st.sidebar:
     st.header("Settings")
@@ -82,7 +82,7 @@ with st.sidebar:
     )
 
     if preset == "Sharp (high-consistency)":
-        vocab = ["America","Americans","Africa","Asia","Europe","Other1","Other2"]
+        vocab = ["London", "Manchester", "Birmingham", "Cardiff", "Edinburgh", "Other1", "Other_n"]
         logits = [8.0, 0.5, -1.0, -1.5, -2.0, -3.0, -4.0]
 
     elif preset == "Flat (low-consistency)":
@@ -106,7 +106,7 @@ with st.sidebar:
 ### General PMF visualization
 
 
-st.subheader("Probability Distribution of Tokens")
+st.subheader("")
 probs = softmax(logits, temp=temperature)
 st.altair_chart(build_chart(vocab, probs), use_container_width=True)
 
