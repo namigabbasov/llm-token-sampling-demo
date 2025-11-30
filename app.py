@@ -71,7 +71,7 @@ based on probability distributions.
 ### SHARP vs FLAT PRESETS
 
 
-st.header("Token Sampling Controls (General Playground)")
+st.header("Token Sampling Controls")
 
 with st.sidebar:
     st.header("Settings")
@@ -106,7 +106,7 @@ with st.sidebar:
 ### General PMF visualization
 
 
-st.subheader("Probability Distribution (General Playground)")
+st.subheader("Probability Distribution of Tokens")
 probs = softmax(logits, temp=temperature)
 st.altair_chart(build_chart(vocab, probs), use_container_width=True)
 
@@ -128,7 +128,7 @@ st.header("Demonstration: Why Facts Are Stable but Citations Hallucinate")
 
 
 st.write("""
-## Test 1 — High-Consistency Fact  
+## 🟠 Test 1 — High-Consistency Fact  
 **Question:** *What is the capital of the United Kingdom?*  
 We simulate a **sharp** probability distribution.
 """)
