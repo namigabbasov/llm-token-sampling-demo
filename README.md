@@ -16,7 +16,7 @@ Students can adjust sliders, visualize distributions, and see how “sharp” vs
 
 ## Live Demo
 
-**https://YOUR-APP-URL.streamlit.app**
+**https://llm-token-sampling-demo.streamlit.app/**
 
 ---
 
